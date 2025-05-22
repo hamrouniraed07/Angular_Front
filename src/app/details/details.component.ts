@@ -19,14 +19,14 @@ export class DetailsComponent implements OnInit {
   isLoading: boolean = true;  // Pour indiquer que les données sont en cours de chargement
   errorMessage: string = '';
 
- 
+
 
   constructor(
     private route: ActivatedRoute, // Pour récupérer l'ID de l'URL
     private router: Router,
     private teamService: TeamServiceService, // Le service pour interagir avec le backend
     private location: Location // Pour gérer la navigation
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const teamId = this.route.snapshot.paramMap.get('id');  // Récupère l'ID depuis la route
@@ -58,43 +58,43 @@ export class DetailsComponent implements OnInit {
     });
   }
 
-  
+
   // Méthode pour supprimer une équipe
-deleteTeam(): void {
-  const teamId = this.route.snapshot.paramMap.get('id');  // Récupère l'ID de l'URL
-  console.log('teamId pour suppression:', teamId);  // Vérifiez que l'ID est récupéré
-  if (teamId && confirm('Voulez-vous vraiment supprimer cette équipe ?')) {
-    this.teamService.deleteTeam(teamId).subscribe({
-      next: () => {
-        alert('L\'équipe a été supprimée');
-        this.location.back(); // Revenir à la page précédente
-      },
-      error: (err) => {
-        this.errorMessage = 'Erreur lors de la suppression de l\'équipe';
-        console.error('Erreur:', err);
-      },
-    });
-  } else {
-    console.error('ID de l\'équipe manquant pour la suppression');
+  deleteTeam(): void {
+    const teamId = this.route.snapshot.paramMap.get('id');
+    console.log('teamId pour suppression:', teamId);
+    if (teamId && confirm('Voulez-vous vraiment supprimer cette équipe ?')) {
+      this.teamService.deleteTeam(teamId).subscribe({
+        next: () => {
+          alert('L\'équipe a été supprimée');
+          this.location.back();
+        },
+        error: (err) => {
+          this.errorMessage = 'Erreur lors de la suppression de l\'équipe';
+          console.error('Erreur:', err);
+        },
+      });
+    } else {
+      console.error('ID de l\'équipe manquant pour la suppression');
+    }
   }
-}
 
-goToUpdateTeam(): void {
-  const teamId = this.route.snapshot.paramMap.get('id');
-  if (teamId) {
-    this.router.navigate(['/update', teamId]);
-  } else {
-    console.error('ID de l\'équipe manquant pour redirection vers la mise à jour');
+  goToUpdateTeam(): void {
+    const teamId = this.route.snapshot.paramMap.get('id');
+    if (teamId) {
+      this.router.navigate(['/update', teamId]);
+    } else {
+      console.error('ID de l\'équipe manquant pour redirection vers la mise à jour');
+    }
   }
-}
 
 
-  // Méthode pour revenir à la page précédente
+
   goBack(): void {
     this.location.back();
   }
 }
 
 
-    
+
 
